@@ -6,6 +6,7 @@
 
 <svelte:head>
   <link rel="icon" href={favicon} />
+  <title>漢字練習</title>
 </svelte:head>
 
 <!-- メニューに戻るリンク（メニュー画面では表示しない） -->

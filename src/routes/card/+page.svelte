@@ -59,10 +59,13 @@
       }
     } else if (mode === "review") {
       // 復習モード：next_review_atが今日以前の問題を取得する
-      const today = new Date().toISOString().split("T")[0];
+      // JSTの今日中に設定された復習を全て拾うため、翌日（UTC）を上限にする
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowStr = tomorrow.toISOString().split("T")[0]; // "2026-04-25" の形式
 
       // ① 今日復習すべき question_id を取得する
-      const { data: progressData, error: progressError } = await supabase.from("kanji_progress").select("question_id").lte("next_review_at", today);
+      const { data: progressData, error: progressError } = await supabase.from("kanji_progress").select("question_id").lte("next_review_at", tomorrowStr);
 
       if (progressError) {
         console.error("進捗取得エラー:", progressError);
